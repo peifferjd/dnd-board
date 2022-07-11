@@ -1,13 +1,8 @@
-import numpy as np
+import board
+import neopixel
+import time
 
-class myclass:
-    def __init__(self) -> None:
-        self.a = 5
-
-myc1 = myclass()
-myc2 = myclass()
-classes = [myc1,myc2]
-
-myarray = np.array(classes)
-
-pp=5
+pixels = neopixel.NeoPixel(board.D18,300,brightness=0.5)
+pixels.fill((0,255,0))
+pixels.show()
+time.sleep(5)
