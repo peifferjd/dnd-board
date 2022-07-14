@@ -6,14 +6,14 @@ import numpy as np
 
 class Dndboard:
     
-    def __init__(self, pixel_count=300, nrows=10, pixel_pin=board.D18) -> None:
+    def __init__(self, pixel_count=100, nrows=10, pixel_pin=board.D18) -> None:
         """
         pixel_count: number of LEDs in the strip
         nrows: number of rows of leds
         pixel_pin: GPIO pin connected to the LEDs"""
 
         self._pixels = neopixel.NeoPixel(pixel_pin,pixel_count,brightness=0.2)
-        self._pixels = np.arange(300)
+        #self._pixels = np.arange(300)
         self._nrows = nrows
         self._npixel = pixel_count
         self._ncols = int(self._npixel/self._nrows)
@@ -40,7 +40,3 @@ class Dndboard:
         for i in self._dndboard:
             i = color
 
-myboard = Dndboard() 
-myboard.setBrightness(0.2)
-time.sleep(5)
-myboard.fillRow(4,(255,0,0))
