@@ -1,5 +1,6 @@
 import board
 import neopixel
+import numpy as np
 
 class Dndboard:
     
@@ -10,22 +11,22 @@ class Dndboard:
         pixel_pin: GPIO pin connected to the LEDs"""
 
         self._pixels = neopixel.NeoPixel(pixel_pin,pixel_count,brightness=0.2)
-        #self._pixels = np.arange(300)
         self._nrows = nrows
         self._npixel = pixel_count
         self._ncols = int(self._npixel/self._nrows)
 
-        self.__createboard()
+        self.__createmapping()
         a=5
 
-    def __createboard(self):
-        self._dndboard = []
+    def __createmapping(self):
+        self._dndboard = np.empty(self._nrows,self._ncols,dtype=int) 
+        pixelnums = np.arange(self._npixel)
         for i in range(self._nrows):
             if i % 2 == 0:
-                row = self._pixels[i*self._ncols : (i+1)*self._ncols]
+                row = pixelnums[i*self._ncols : (i+1)*self._ncols]
             else:
-                row = self._pixels[ (i+1)*self._ncols -1 : i*self._ncols -1 : -1]
-            self._dndboard.append(row)
+                row = pixelnums[ (i+1)*self._ncols -1 : i*self._ncols -1 : -1]
+            self._dndboard[i,:] = row
 
     def setBrightness(self,brightness: float) -> int:
         if brightness > 1.0 or brightness < 0:
@@ -34,6 +35,6 @@ class Dndboard:
         return 1
 
     def fillRow(self,row:int, color: tuple[int]):
-        for i in self._dndboard[row]:
-            i = color
+        for i in self._dndboard[row,:]:
+            self._pixels[i] = color
 
