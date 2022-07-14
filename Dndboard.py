@@ -16,11 +16,12 @@ class Dndboard:
         self._ncols = int(self._npixel/self._nrows)
 
         self.__createmapping()
-        a=5
 
     def __createmapping(self):
-        self._dndboard = np.empty(self._nrows,self._ncols,dtype=int) 
+        self._dndboard = np.zeros((self._nrows,self._ncols),dtype=int) 
         pixelnums = np.arange(self._npixel)
+        pixelnums = np.roll(pixelnums,1)
+        pixelnums[0] = 0
         for i in range(self._nrows):
             if i % 2 == 0:
                 row = pixelnums[i*self._ncols : (i+1)*self._ncols]
