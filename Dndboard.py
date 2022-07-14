@@ -1,8 +1,5 @@
-import time
 import board
 import neopixel
-import time
-import numpy as np
 
 class Dndboard:
     
