@@ -37,6 +37,6 @@ class Dndboard:
         return 1
 
     def fillRow(self,row:int, color: tuple[int]):
-        for i in self._dndboard:
+        for i in self._dndboard[row]:
             i = color
 
