@@ -10,7 +10,7 @@ class Dndboard:
         nrows: number of rows of leds
         pixel_pin: GPIO pin connected to the LEDs"""
 
-        self._pixels = neopixel.NeoPixel(pixel_pin,pixel_count,brightness=0.2)
+        self._pixels = neopixel.NeoPixel(pixel_pin,pixel_count,brightness=0.2,auto_write=False)
         self._nrows = nrows
         self._npixel = pixel_count
         self._ncols = int(self._npixel/self._nrows)
@@ -47,3 +47,9 @@ class Dndboard:
         for i in range(arr.shape[0]):
             for j in range(arr.shape[1]):
                 self._pixels[self._dndboard[i,j]] = arr[i,j,:]
+        self._pixels.show()
+
+    def fillZero(self):
+        """If no arguments are passed, just set the board to zero"""
+        self._pixels.fill((0,0,0))
+        self._pixels.show()
