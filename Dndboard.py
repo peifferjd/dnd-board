@@ -39,7 +39,7 @@ class Dndboard:
         for i in self._dndboard[row,:]:
             self._pixels[i] = color
 
-    def fillBoard(self,arr: np.ndarray[int]):
+    def fillBoard(self,arr: np.ndarray):
         """Pass an array of the shape of the gameboard and it will fill that shape"""
         if arr.shape[0] != self._nrows or arr.shape[1] != self._ncols or arr.shape[2] != 3:
             print("Wrong array dimensions.")
