@@ -68,11 +68,17 @@ class Dndboard:
         original_board = arr
         for _ in range(10):
             stepped = original_board
-            randarr = np.random.randint(-5,-5,(10,10,3))
+            randarr = np.random.randint(-10,10,(10,10,3))
             for _ in range(5):
                 stepped += randarr
                 stepped[stepped > 255] = 255 
                 stepped[stepped < 0] = 0
                 self.fillBoard(stepped)
-                sleep(0.1)
+                sleep(0.01)
+            for _ in range(5):
+                stepped -= randarr
+                stepped[stepped > 255] = 255 
+                stepped[stepped < 0] = 0
+                self.fillBoard(stepped)
+                sleep(0.01)
 
