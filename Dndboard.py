@@ -1,6 +1,7 @@
 import board
 import neopixel
 import numpy as np
+from time import sleep
 
 class Dndboard:
     
@@ -18,6 +19,7 @@ class Dndboard:
         self.__createmapping()
 
     def __createmapping(self):
+        """Creates an array that maps the position in the array (basically x,y of the gamebaord) to a pixel location along the strip. The roll occus because the first row only has 9 LEDs"""
         self._dndboard = np.zeros((self._nrows,self._ncols),dtype=int) 
         pixelnums = np.arange(self._npixel)
         pixelnums = np.roll(pixelnums,1)
@@ -30,17 +32,20 @@ class Dndboard:
             self._dndboard[i,:] = row
 
     def setBrightness(self,brightness: float) -> int:
+        """Sets brightness of every LED. Not sure if you can set individual ones?"""
         if brightness > 1.0 or brightness < 0:
             return 0
         self._pixels.brightness = brightness
         return 1
 
     def fillRow(self,row:int, color: tuple[int]):
+        """Fills an entire row of the board with a color and displays it"""
         for i in self._dndboard[row,:]:
             self._pixels[i] = color
+        self._pixels.show()
 
     def fillBoard(self,arr: np.ndarray):
-        """Pass an array of the shape of the gameboard and it will fill that shape"""
+        """Pass an array of the shape of the gameboard and it will fill that shape. Array must be row x col x 3"""
         if arr.shape[0] != self._nrows or arr.shape[1] != self._ncols or arr.shape[2] != 3:
             print("Wrong array dimensions.")
             return
@@ -49,7 +54,25 @@ class Dndboard:
                 self._pixels[self._dndboard[i,j]] = arr[i,j,:]
         self._pixels.show()
 
+    def fill(self, color: tuple[int]):
+        """Fills the whole board with a single color"""
+        self._pixels.fill(color)
+
     def fillZero(self):
         """If no arguments are passed, just set the board to zero"""
         self._pixels.fill((0,0,0))
         self._pixels.show()
+
+    def modulateFill(self,arr: np.ndarray):
+        """Stores the array you give, and randomly moves a few ints off that color code to create a cool effect."""
+        original_board = arr
+        for _ in range(10):
+            stepped = original_board
+            randarr = np.random.randint(-5,-5,(10,10,3))
+            for _ in range(5):
+                stepped += randarr
+                stepped[stepped > 255] = 255 
+                stepped[stepped < 0] = 0
+                self.fillBoard(stepped)
+                sleep(0.1)
+
