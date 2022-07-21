@@ -49,6 +49,8 @@ class Dndboard:
         if arr.shape[0] != self._nrows or arr.shape[1] != self._ncols or arr.shape[2] != 3:
             print("Wrong array dimensions.")
             return
+        arr[arr > 255] = 255
+        arr[arr < 0] = 0
         for i in range(arr.shape[0]):
             for j in range(arr.shape[1]):
                 self._pixels[self._dndboard[i,j]] = arr[i,j,:]
@@ -66,19 +68,19 @@ class Dndboard:
     def modulateFill(self,arr: np.ndarray):
         """Stores the array you give, and randomly moves a few ints off that color code to create a cool effect."""
         original_board = arr
-        for _ in range(10):
+        for _ in range(1):
             stepped = original_board
-            randarr = np.random.randint(-10,10,(10,10,3))
-            for _ in range(5):
+            randarr = np.random.randint(-5,5,(10,10,3))
+            for _ in range(15):
                 stepped += randarr
-                stepped[stepped > 255] = 255 
-                stepped[stepped < 0] = 0
+                #stepped[stepped > 255] = 255 
+                #stepped[stepped < 0] = 0
                 self.fillBoard(stepped)
-                sleep(0.01)
-            for _ in range(5):
+                sleep(0.1)
+            for _ in range(15):
                 stepped -= randarr
-                stepped[stepped > 255] = 255 
-                stepped[stepped < 0] = 0
+                #stepped[stepped > 255] = 255 
+                #stepped[stepped < 0] = 0
                 self.fillBoard(stepped)
-                sleep(0.01)
+                sleep(0.1)
 

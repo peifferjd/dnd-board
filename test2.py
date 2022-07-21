@@ -2,7 +2,7 @@ from Dndboard import Dndboard
 from time import sleep
 
 board = Dndboard()
-board.setBrightness(0.1)
+board.setBrightness(1.0)
 for _ in range(10):
     board.fillRow(0,(0,0,255))
     sleep(0.1)
