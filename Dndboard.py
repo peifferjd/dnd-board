@@ -2,6 +2,7 @@ import board
 import neopixel
 import numpy as np
 from time import sleep
+from math import floor
 
 class Dndboard:
     
@@ -68,9 +69,10 @@ class Dndboard:
     def modulateFill(self,arr: np.ndarray):
         """Stores the array you give, and randomly moves a few ints off that color code to create a cool effect."""
         original_board = arr
-        for _ in range(1):
+        #for _ in range(1):
+        while True:
             stepped = original_board
-            randarr = np.random.randint(-5,5,(10,10,3))
+            randarr = np.random.randint(-10,10,(10,10,3))
             for _ in range(15):
                 stepped += randarr
                 #stepped[stepped > 255] = 255 
@@ -83,4 +85,46 @@ class Dndboard:
                 #stepped[stepped < 0] = 0
                 self.fillBoard(stepped)
                 sleep(0.1)
+
+    def modulateFill2(self):
+        og = np.zeros((10,10,3),dtype=int)
+        step = 20
+        howmany = floor(255/step)
+        while True:
+            for _ in range(howmany):
+                og[:,:,1] += step
+                self.fillBoard(og)
+                #sleep(0.01)
+            for _ in range(howmany):
+                og[:,:,2] += step
+                self.fillBoard(og)
+                #sleep(0.01)
+            for _ in range(howmany):
+                og[:,:,1] -= step
+                self.fillBoard(og)
+                #sleep(0.01)
+            for _ in range(howmany):
+                og[:,:,2] -= step
+                self.fillBoard(og)
+                #sleep(0.01)
+
+    def water(self):
+        """Stores the array you give, and randomly moves a few ints off that color code to create a cool effect."""
+        water = np.zeros((10,10,3),dtype=int)
+        water[:,:,1]=255
+        water[:,:,2]=75
+        changeme = water
+        self.fillBoard(water)
+        while True:
+            ind = np.random.randint(0,9,1)
+            for i in range(10):
+                changeme[i,ind,0] = 255
+                changeme[i,ind,1] = 255
+                changeme[i,ind,2] = 255
+                self.fillBoard(changeme)
+            for i in range(10):
+                changeme[i,ind,0] = 0
+                changeme[i,ind,1] = 255
+                changeme[i,ind,2] = 75 
+                self.fillBoard(changeme)
 

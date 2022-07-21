@@ -4,7 +4,8 @@ from time import sleep
 
 board = Dndboard()
 board.setBrightness(0.5)
-for _ in range(100):
+#for _ in range(100):
+while True:
     randarr = np.random.randint(0,255,(10,10,3))
     board.fillBoard(randarr)
     sleep(0.1)
